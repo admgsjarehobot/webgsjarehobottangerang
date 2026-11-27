@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -24,14 +24,101 @@
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
-            serif: ['Playfair Display', 'serif']
+            serif: ['Playfair Display', 'serif'],
+            display: ['Cinzel', 'serif'],
+            script: ['Great Vibes', 'cursive'],
+            welcome: ['Plus Jakarta Sans', 'sans-serif']
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            shrinkBar: {
+              '0%': { width: '100%' },
+              '100%': { width: '0%' }
+            }
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'shrink-bar': 'shrinkBar 5s linear forwards'
           }
         }
       }
     }
   </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased overflow-hidden">
+
+  <!-- ================= WELCOME SPLASH SCREEN (5 DETIK) ================= -->
+  <div id="welcomeOverlay" class="fixed inset-0 z-[100] bg-gradient-to-br from-brand-navy via-brand-teal to-slate-950 text-white flex flex-col items-center justify-center px-6 text-center transition-opacity duration-700 font-welcome">
+    <!-- Dekorasi Cahaya Latar -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-xl w-full flex flex-col items-center animate-fade-in-up">
+      <!-- Logo Gereja -->
+      <div class="relative mb-5">
+        <div class="absolute inset-0 rounded-full bg-brand-gold/30 blur-xl scale-110"></div>
+        <img
+          src="LOGO%20REHOBOT%20WEB.jpg"
+          alt="Logo GSJA Rehobot Tangerang"
+          class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full object-contain bg-white p-1.5 shadow-2xl border-4 border-brand-gold/60"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white hidden items-center justify-center shadow-2xl border-4 border-brand-gold/60">
+          <i class="fa-solid fa-church text-brand-teal text-4xl"></i>
+        </div>
+      </div>
+
+      <!-- Salam Kaligrafi -->
+      <p class="font-script text-3xl sm:text-4xl text-brand-goldLight tracking-wide mb-2 drop-shadow-sm">
+        Shalom &amp; Selamat Datang
+      </p>
+
+      <!-- Judul Sambutan Klasik & Megah -->
+      <h2 class="font-display text-2xl sm:text-4xl font-bold uppercase tracking-wider leading-snug mb-4 text-white">
+        Rumah Rohani untuk <br class="hidden sm:inline" />
+        <span class="text-brand-gold">Bertumbuh &amp; Dipulihkan</span>
+      </h2>
+
+      <!-- Garis Ornamen Emas -->
+      <div class="flex items-center justify-center gap-3 mb-4 opacity-80">
+        <span class="w-10 h-px bg-gradient-to-r from-transparent to-brand-gold"></span>
+        <i class="fa-solid fa-cross text-brand-gold text-xs"></i>
+        <span class="w-10 h-px bg-gradient-to-l from-transparent to-brand-gold"></span>
+      </div>
+
+      <!-- Subjudul -->
+      <p class="font-welcome text-slate-200 text-sm sm:text-base font-normal leading-relaxed mb-6 max-w-md">
+        Kami bersukacita menyambut kehadiran Anda di portal resmi
+        <strong class="text-white font-semibold">GSJA Rehobot Tangerang</strong>. Kiranya kasih, damai sejahtera, dan anugerah Tuhan Yesus Kristus melimpah atas hidup Anda dan keluarga.
+      </p>
+
+      <!-- Progress Bar 5 Detik & Hitung Mundur -->
+      <div class="w-full max-w-xs mb-6">
+        <div class="flex items-center justify-between text-xs text-slate-300 mb-2">
+          <span>Membuka halaman utama...</span>
+          <span class="font-semibold text-brand-goldLight"><span id="splashCountdown">5</span> detik</span>
+        </div>
+        <div class="w-full h-1.5 bg-white/15 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-brand-gold to-brand-goldLight rounded-full animate-shrink-bar"></div>
+        </div>
+      </div>
+
+      <!-- Tombol Masuk Langsung -->
+      <button
+        type="button"
+        id="enterSiteBtn"
+        class="inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-goldLight text-brand-navy font-bold tracking-wide px-7 py-3 rounded-full text-sm shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+      >
+        <span>Masuk ke Beranda</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </div>
+  </div>
+  <!-- ================= END WELCOME SPLASH SCREEN ================= -->
+
   <header class="fixed top-0 left-0 right-0 z-50 bg-brand-navy/95 backdrop-blur-md text-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
@@ -521,12 +608,53 @@
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Kontak Pelayanan</h4>
-          <p class="text-xs text-slate-300 mb-2">WhatsApp Admin & Doa:</p>
-          <p class="text-base font-bold text-brand-gold mb-3">0856 – 1843 – 758</p>
-          <div class="flex gap-3">
-            <a href="https://wa.me/628561843758" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-brand-teal flex items-center justify-center text-white transition-colors" title="WhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Kontak & Media Sosial</h4>
+          <p class="text-xs text-slate-300 mb-1">WhatsApp Admin & Doa:</p>
+          <p class="text-base font-bold text-brand-gold mb-4">0856 – 1843 – 758</p>
+
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Mari terhubung dan ikuti akun media sosial resmi kami untuk renungan harian, cuplikan ibadah, dan informasi kegiatan gereja:
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a
+              href="https://wa.me/628561843758"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp GSJA Rehobot Tangerang"
+              title="WhatsApp Admin"
+              class="w-10 h-10 rounded-full bg-slate-800 hover:bg-emerald-600 text-white flex items-center justify-center transition-all transform hover:-translate-y-0.5 shadow-sm"
+            >
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/@gsja.rehobot.pano?is_from_webapp=1&sender_device=pc"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok GSJA Rehobot Tangerang"
+              title="Ikuti TikTok Kami (@gsja.rehobot.pano)"
+              class="w-10 h-10 rounded-full bg-slate-800 hover:bg-black text-white flex items-center justify-center transition-all transform hover:-translate-y-0.5 shadow-sm"
+            >
+              <i class="fa-brands fa-tiktok text-base"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/gsjarehobottangerang?utm_source=ig_web_button_share_sheet&evlk=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram GSJA Rehobot Tangerang"
+              title="Ikuti Instagram Kami (@gsjarehobottangerang)"
+              class="w-10 h-10 rounded-full bg-slate-800 hover:bg-gradient-to-tr hover:from-amber-500 hover:via-pink-600 hover:to-purple-600 text-white flex items-center justify-center transition-all transform hover:-translate-y-0.5 shadow-sm"
+            >
+              <i class="fa-brands fa-instagram text-lg"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/gsja.rehobot.panongan?locale=id_ID"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook GSJA Rehobot Tangerang"
+              title="Ikuti Facebook Kami"
+              class="w-10 h-10 rounded-full bg-slate-800 hover:bg-blue-600 text-white flex items-center justify-center transition-all transform hover:-translate-y-0.5 shadow-sm"
+            >
+              <i class="fa-brands fa-facebook-f text-base"></i>
             </a>
           </div>
         </div>
@@ -545,6 +673,42 @@
   </aside>
 
   <script>
+    // Kontrol Welcome Splash Screen (5 Detik)
+    (function initWelcomeSplash() {
+      const overlay = document.getElementById('welcomeOverlay');
+      const countdownEl = document.getElementById('splashCountdown');
+      const enterBtn = document.getElementById('enterSiteBtn');
+      if (!overlay) return;
+
+      let secondsLeft = 5;
+      let closed = false;
+
+      function closeSplash() {
+        if (closed) return;
+        closed = true;
+        clearInterval(timer);
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+          overlay.remove();
+        }, 700);
+      }
+
+      const timer = setInterval(() => {
+        secondsLeft -= 1;
+        if (countdownEl && secondsLeft >= 0) {
+          countdownEl.textContent = secondsLeft;
+        }
+        if (secondsLeft <= 0) {
+          closeSplash();
+        }
+      }, 1000);
+
+      if (enterBtn) {
+        enterBtn.addEventListener('click', closeSplash);
+      }
+    })();
+
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenuBtn.addEventListener('click', () => {
