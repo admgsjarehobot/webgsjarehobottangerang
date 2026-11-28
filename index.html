@@ -50,75 +50,91 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased overflow-hidden">
 
-  <!-- ================= WELCOME SPLASH SCREEN (10 DETIK) ================= -->
-  <div id="welcomeOverlay" class="fixed inset-0 z-[100] bg-gradient-to-br from-brand-navy via-brand-teal to-slate-950 text-white flex flex-col items-center justify-center px-6 text-center transition-opacity duration-700 font-welcome">
-    <!-- Dekorasi Cahaya Latar -->
-    <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+  <!-- ================= WELCOME SPLASH SCREEN (10 DETIK - PHOTO CENTRIC) ================= -->
+  <div id="welcomeOverlay" class="fixed inset-0 z-[100] bg-brand-navy text-white flex flex-col justify-between transition-opacity duration-700 font-welcome select-none">
+    
+    <!-- Foto Latar Penuh (Menggunakan file pengerja.jpg dengan fallback otomatis ke .png / .jpeg) -->
+    <img
+      src="pengerja.jpg"
+      alt="Jemaat & Pengerja GSJA Rehobot Tangerang"
+      class="absolute inset-0 w-full h-full object-cover object-center z-0"
+      onerror="if(!this.dataset.retry){this.dataset.retry='png';this.src='pengerja.png';}else if(this.dataset.retry==='png'){this.dataset.retry='jpeg';this.src='pengerja.jpeg';}else{this.onerror=null;this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1920&q=80';}"
+    />
 
-    <div class="relative z-10 max-w-xl w-full flex flex-col items-center animate-fade-in-up">
-      <!-- Logo Gereja -->
-      <div class="relative mb-5">
-        <div class="absolute inset-0 rounded-full bg-brand-gold/30 blur-xl scale-110"></div>
+    <!-- Gradasi Gelap Tipis Hanya di Bagian Atas & Bawah Agar Area Tengah (Wajah Jemaat) Tetap Terang & Jelas -->
+    <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-navy/85 via-brand-navy/45 to-transparent z-[1] pointer-events-none"></div>
+    <div class="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-brand-navy/85 via-brand-navy/35 to-transparent z-[1] pointer-events-none"></div>
+
+    <!-- Bar Bagian Atas (Logo, Nama Gereja & Hitung Mundur) -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-5 sm:pt-7 flex items-center justify-between gap-4">
+      <!-- Spacer kiri agar logo & judul berada seimbang di tengah-kiri pada layar desktop -->
+      <div class="hidden md:block w-48"></div>
+
+      <!-- Identitas Gereja -->
+      <div class="flex items-center gap-3 sm:gap-3.5">
         <img
           src="LOGO%20REHOBOT%20WEB.jpg"
           alt="Logo GSJA Rehobot Tangerang"
-          class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full object-contain bg-white p-1.5 shadow-2xl border-4 border-brand-gold/60"
+          class="w-11 h-11 sm:w-12 sm:h-12 rounded-full object-contain bg-white p-0.5 shadow-lg border-2 border-brand-gold/70 shrink-0"
           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
         />
-        <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white hidden items-center justify-center shadow-2xl border-4 border-brand-gold/60">
-          <i class="fa-solid fa-church text-brand-teal text-4xl"></i>
+        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white hidden items-center justify-center shadow-lg border-2 border-brand-gold/70 shrink-0">
+          <i class="fa-solid fa-church text-brand-teal text-lg"></i>
+        </div>
+        <div class="text-left drop-shadow">
+          <span class="block font-display font-bold text-sm sm:text-lg tracking-wider text-white leading-tight">
+            GSJA REHOBOT TANGERANG
+          </span>
+          <span class="block text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-brand-goldLight uppercase mt-0.5">
+            Selamat Datang di Rumah
+          </span>
         </div>
       </div>
 
-      <!-- Salam Kaligrafi -->
-      <p class="font-script text-3xl sm:text-4xl text-brand-goldLight tracking-wide mb-2 drop-shadow-sm">
-        Shalom &amp; Selamat Datang
-      </p>
-
-      <!-- Judul Sambutan Klasik & Megah -->
-      <h2 class="font-display text-2xl sm:text-4xl font-bold uppercase tracking-wider leading-snug mb-4 text-white">
-        Rumah Rohani untuk <br class="hidden sm:inline" />
-        <span class="text-brand-gold">Bertumbuh &amp; Dipulihkan</span>
-      </h2>
-
-      <!-- Garis Ornamen Emas -->
-      <div class="flex items-center justify-center gap-3 mb-4 opacity-80">
-        <span class="w-10 h-px bg-gradient-to-r from-transparent to-brand-gold"></span>
-        <i class="fa-solid fa-cross text-brand-gold text-xs"></i>
-        <span class="w-10 h-px bg-gradient-to-l from-transparent to-brand-gold"></span>
+      <!-- Pill Badge Hitung Mundur Pojok Kanan Atas -->
+      <div class="bg-brand-navy/75 backdrop-blur-md border border-brand-gold/40 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm text-slate-100 shadow-lg shrink-0">
+        <span class="hidden sm:inline">Membuka Beranda dalam </span>
+        <span class="sm:hidden">Beranda: </span>
+        <span id="splashCountdown" class="font-bold text-brand-goldLight">10</span><span class="font-bold text-brand-goldLight">s</span>
       </div>
+    </div>
 
-      <!-- Subjudul -->
-      <p class="font-welcome text-slate-200 text-sm sm:text-base font-normal leading-relaxed mb-6 max-w-md">
-        Kami bersukacita menyambut kehadiran Anda di portal resmi
-        <strong class="text-white font-semibold">GSJA Rehobot Tangerang</strong>. Kiranya kasih, damai sejahtera, dan anugerah Tuhan Yesus Kristus melimpah atas hidup Anda dan keluarga.
-      </p>
+    <!-- Kartu Glassmorphism Melayang di Bagian Paling Bawah (Area Lantai, Tidak Menutupi Wajah) -->
+    <div class="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 pb-5 sm:pb-8 animate-fade-in-up">
+      <div class="bg-brand-navy/85 backdrop-blur-md border border-white/15 rounded-2xl px-5 py-4 sm:px-8 sm:py-5 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+        
+        <!-- Teks Sambutan Singkat -->
+        <div class="text-center sm:text-left">
+          <h2 class="font-serif text-xl sm:text-2xl md:text-[26px] font-bold text-white leading-snug">
+            Selamat Datang di GSJA Rehobot Tangerang
+          </h2>
+          <p class="text-slate-200 text-xs sm:text-sm mt-1">
+            Mari bertumbuh bersama dalam kasih dan kebenaran Kristus.
+          </p>
+        </div>
 
-      <!-- Progress Bar 10 Detik & Hitung Mundur -->
-      <div class="w-full max-w-xs mb-6">
-        <div class="flex items-center justify-between text-xs text-slate-300 mb-2">
-          <span>Membuka halaman utama...</span>
-          <span class="font-semibold text-brand-goldLight"><span id="splashCountdown">10</span> detik</span>
+        <!-- Tombol Masuk & Progress Bar 10 Detik -->
+        <div class="w-full sm:w-auto flex flex-col items-stretch shrink-0">
+          <button
+            type="button"
+            id="enterSiteBtn"
+            class="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-brand-gold to-brand-goldLight hover:brightness-105 text-brand-navy font-bold tracking-wide px-6 py-3 rounded-xl text-sm shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+          >
+            <span>Masuk ke Beranda</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+          <!-- Progress Bar Tipis di Bawah Tombol -->
+          <div class="w-full h-1 bg-white/15 rounded-full overflow-hidden mt-2">
+            <div class="h-full bg-gradient-to-r from-brand-gold to-brand-goldLight rounded-full animate-shrink-bar"></div>
+          </div>
         </div>
-        <div class="w-full h-1.5 bg-white/15 rounded-full overflow-hidden">
-          <div class="h-full bg-gradient-to-r from-brand-gold to-brand-goldLight rounded-full animate-shrink-bar"></div>
-        </div>
+
       </div>
-
-      <!-- Tombol Masuk Langsung -->
-      <button
-        type="button"
-        id="enterSiteBtn"
-        class="inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-goldLight text-brand-navy font-bold tracking-wide px-7 py-3 rounded-full text-sm shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
-      >
-        <span>Masuk ke Beranda</span>
-        <i class="fa-solid fa-arrow-right text-xs"></i>
-      </button>
     </div>
   </div>
   <!-- ================= END WELCOME SPLASH SCREEN ================= -->
 
+  <!-- ================= HEADER / NAVBAR ================= -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-brand-navy/95 backdrop-blur-md text-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
@@ -169,6 +185,7 @@
     </div>
   </header>
 
+  <!-- ================= HERO SECTION BERANDA ================= -->
   <section id="beranda" class="scroll-mt-20 relative pt-32 pb-24 md:pt-44 md:pb-36 bg-gradient-to-br from-brand-navy via-brand-teal to-slate-900 text-white overflow-hidden">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -204,6 +221,7 @@
     </div>
   </section>
 
+  <!-- ================= JADWAL IBADAH ================= -->
   <section id="jadwal" class="scroll-mt-20 py-20 bg-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -270,6 +288,7 @@
     </div>
   </section>
 
+  <!-- ================= WARTA & PENGUMUMAN ================= -->
   <section id="pengumuman" class="scroll-mt-20 py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -474,6 +493,7 @@
     </div>
   </section>
 
+  <!-- ================= DUKUNGAN DOA ================= -->
   <section id="doa" class="scroll-mt-20 py-20 bg-slate-900 text-white relative">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="w-16 h-16 bg-brand-teal/50 border border-brand-teal text-brand-gold rounded-full flex items-center justify-center text-2xl mx-auto mb-6">
@@ -501,6 +521,7 @@
     </div>
   </section>
 
+  <!-- ================= LOKASI IBADAH ================= -->
   <section id="lokasi" class="scroll-mt-20 py-20 bg-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -577,6 +598,7 @@
     </div>
   </section>
 
+  <!-- ================= FOOTER ================= -->
   <footer class="bg-brand-navy text-slate-400 py-12 border-t border-slate-800 text-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -665,6 +687,7 @@
     </div>
   </footer>
 
+  <!-- ================= FLOATING WHATSAPP ================= -->
   <aside aria-label="Kontak Cepat" class="fixed bottom-6 right-6 z-50">
     <a href="https://wa.me/628561843758?text=Shalom%20Admin%20GSJA%20Rehobot%20Tangerang..." target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-3 rounded-full shadow-2xl transition-all transform hover:scale-105" title="Chat dengan Admin Gereja">
       <i class="fa-brands fa-whatsapp text-2xl"></i>
@@ -709,6 +732,7 @@
       }
     })();
 
+    // Toggle Menu Mobile
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenuBtn.addEventListener('click', () => {
@@ -720,6 +744,7 @@
       });
     });
 
+    // Salin Nomor Rekening BCA
     async function copyAccountNumber() {
       const accountNum = '3500143583';
       const copyText = document.getElementById('copyText');
